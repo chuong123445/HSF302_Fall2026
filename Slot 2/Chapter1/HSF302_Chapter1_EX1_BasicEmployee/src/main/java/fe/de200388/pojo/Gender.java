@@ -1,5 +1,5 @@
 
-package fe.de200388;
+package fe.de200388.pojo;
 
 public enum Gender {
     MALE,

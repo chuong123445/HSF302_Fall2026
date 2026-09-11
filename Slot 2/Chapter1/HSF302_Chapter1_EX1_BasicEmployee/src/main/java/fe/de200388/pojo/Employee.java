@@ -1,4 +1,4 @@
-package fe.de200388;
+package fe.de200388.pojo;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
