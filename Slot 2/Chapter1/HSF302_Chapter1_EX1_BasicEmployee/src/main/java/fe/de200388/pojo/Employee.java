@@ -38,13 +38,13 @@ public class Employee {
 
     // Constructor tiện dụng
     public Employee(String fullName, String email, BigDecimal salary,
-                    Gender gender, LocalDate hireDate, boolean active) {
+                    Gender gender, LocalDate hireDate) {
         this.fullName = fullName;
         this.email = email;
         this.salary = salary;
         this.gender = gender;
         this.hireDate = hireDate;
-        this.active = active;
+        this.active = true;
     }
 
     // Method tính yearsOfService
