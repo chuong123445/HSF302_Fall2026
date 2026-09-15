@@ -6,9 +6,11 @@ import fu.DE200388.pojo.Department;
 import fu.DE200388.pojo.Employee;
 import fu.DE200388.pojo.Gender;
 import fu.DE200388.util.JPAUtil;
+import jakarta.persistence.EntityManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Main {
 
@@ -16,54 +18,78 @@ public class Main {
 
         DepartmentDAO departmentDAO = new DepartmentDAO();
 
-        // ===== CREATE TEST DATA =====
+        // =========================================
+        // Tao du lieu test
+        // =========================================
 
-        Department dept = new Department("IT");
+        Department it = new Department("IT");
 
-        Employee emp1 = new Employee(
+        it.addEmployee(new Employee(
                 "Nguyen Van A",
-                "a@company.com",
+                "it.a@company.com",
                 new BigDecimal("15000000"),
                 Gender.MALE,
                 true,
-                LocalDate.of(2022, 3, 1)
-        );
+                LocalDate.of(2022, 1, 10)
+        ));
 
-        Employee emp2 = new Employee(
-                "Nguyen Thi B",
-                "b@company.com",
+        Department marketing = new Department("Marketing");
+
+        marketing.addEmployee(new Employee(
+                "Tran Thi B",
+                "marketing.b@company.com",
                 new BigDecimal("18000000"),
                 Gender.FEMALE,
                 true,
-                LocalDate.of(2023, 5, 10)
-        );
+                LocalDate.of(2021, 6, 1)
+        ));
 
-        // Đồng bộ cả 2 phía
-        dept.addEmployee(emp1);
-        dept.addEmployee(emp2);
+        Department hr = new Department("HR");
 
-        // CascadeType.ALL -> Employee cũng được persist
-        departmentDAO.save(dept);
+        hr.addEmployee(new Employee(
+                "Le Van C",
+                "hr.c@company.com",
+                new BigDecimal("12000000"),
+                Gender.OTHER,
+                true,
+                LocalDate.of(2023, 3, 15)
+        ));
 
-        System.out.println("Department ID: " + dept.getId());
+        departmentDAO.save(it);
+        departmentDAO.save(marketing);
+        departmentDAO.save(hr);
 
 
-        // ===== TODO 2.6 - JOIN FETCH =====
+        // =========================================
+        // TODO 2.8 - N+1 QUERY PROBLEM
+        // =========================================
 
-        Department loaded =
-                departmentDAO.findByIdWithEmployees(dept.getId());
+        EntityManager em =
+                JPAUtil.getEMF().createEntityManager();
 
-        // EntityManager trong DAO đã đóng ở thời điểm này.
-        System.out.println("Department: " + loaded.getName());
+        try {
 
-        System.out.println(
-                "Employee count: " + loaded.getEmployees().size()
-        );
+            // Query 1: Lay tat ca Department
+            List<Department> departments =
+                    em.createQuery(
+                            "SELECT d FROM Department d",
+                            Department.class
+                    ).getResultList();
 
-        for (Employee employee : loaded.getEmployees()) {
-            System.out.println(employee.getFullName());
+            // Moi Department se phat sinh them
+            // 1 query khi truy cap employees lan dau
+            for (Department department : departments) {
+
+                System.out.println(
+                        department.getName()
+                                + " - Employees: "
+                                + department.getEmployees().size()
+                );
+            }
+
+        } finally {
+            em.close();
         }
-
 
         JPAUtil.close();
     }
