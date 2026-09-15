@@ -1,8 +1,6 @@
 package fu.DE200388.Pojo;
 
-
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -28,6 +26,12 @@ public class Employee {
 
     private LocalDate hireDate;
 
+    // TODO 2.2 - Owning side
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+
     // No-arg constructor
     public Employee() {
     }
@@ -46,6 +50,7 @@ public class Employee {
         this.active = active;
         this.hireDate = hireDate;
     }
+
 
     // Getter / Setter
 
@@ -103,5 +108,13 @@ public class Employee {
 
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
