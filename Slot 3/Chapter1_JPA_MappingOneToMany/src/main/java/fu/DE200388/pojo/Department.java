@@ -1,4 +1,4 @@
-package fu.DE200388.Pojo;
+package fu.DE200388.pojo;
 
 
 import jakarta.persistence.*;

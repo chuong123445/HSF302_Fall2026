@@ -1,10 +1,9 @@
 package fu.DE200388;
 
-import fu.DE200388.Pojo.Department;
+import fu.DE200388.pojo.Department;
 
-import fu.DE200388.Pojo.Department;
-import fu.DE200388.Pojo.Employee;
-import fu.DE200388.Pojo.Gender;
+import fu.DE200388.pojo.Employee;
+import fu.DE200388.pojo.Gender;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
