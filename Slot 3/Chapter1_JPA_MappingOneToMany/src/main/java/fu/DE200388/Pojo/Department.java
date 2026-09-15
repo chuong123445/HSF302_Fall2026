@@ -34,6 +34,17 @@ public class Department {
     public Department(String name) {
         this.name = name;
     }
+    // TODO 2.4 - Helper methods
+
+    public void addEmployee(Employee e) {
+        this.employees.add(e);
+        e.setDepartment(this);
+    }
+
+    public void removeEmployee(Employee e) {
+        this.employees.remove(e);
+        e.setDepartment(null);
+    }
 
 
     // Getter / Setter
