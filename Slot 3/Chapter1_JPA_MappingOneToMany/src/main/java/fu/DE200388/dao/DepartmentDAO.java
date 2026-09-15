@@ -129,4 +129,19 @@ public class DepartmentDAO {
             em.close();
         }
     }
+    // ===== TODO 2.9 - FIX N+1 =====
+    public List<Department> findAllWithEmployees() {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+
+        try {
+            return em.createQuery(
+                    "SELECT d FROM Department d " +
+                            "JOIN FETCH d.employees",
+                    Department.class
+            ).getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
 }

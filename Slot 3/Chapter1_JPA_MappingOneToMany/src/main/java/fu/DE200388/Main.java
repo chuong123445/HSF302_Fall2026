@@ -18,78 +18,39 @@ public class Main {
 
         DepartmentDAO departmentDAO = new DepartmentDAO();
 
-        // =========================================
-        // Tao du lieu test
-        // =========================================
+        // ==========================================
+        // TODO 2.9 - FIX N+1 WITH JOIN FETCH
+        // ==========================================
 
-        Department it = new Department("IT");
+        List<Department> departments =
+                departmentDAO.findAllWithEmployees();
 
-        it.addEmployee(new Employee(
-                "Nguyen Van A",
-                "it.a@company.com",
-                new BigDecimal("15000000"),
-                Gender.MALE,
-                true,
-                LocalDate.of(2022, 1, 10)
-        ));
+        // EntityManager trong DAO da dong
+        // nhung employees da duoc JOIN FETCH
+        for (Department department : departments) {
 
-        Department marketing = new Department("Marketing");
+            System.out.println(
+                    "Department: " + department.getName()
+            );
 
-        marketing.addEmployee(new Employee(
-                "Tran Thi B",
-                "marketing.b@company.com",
-                new BigDecimal("18000000"),
-                Gender.FEMALE,
-                true,
-                LocalDate.of(2021, 6, 1)
-        ));
-
-        Department hr = new Department("HR");
-
-        hr.addEmployee(new Employee(
-                "Le Van C",
-                "hr.c@company.com",
-                new BigDecimal("12000000"),
-                Gender.OTHER,
-                true,
-                LocalDate.of(2023, 3, 15)
-        ));
-
-        departmentDAO.save(it);
-        departmentDAO.save(marketing);
-        departmentDAO.save(hr);
-
-
-        // =========================================
-        // TODO 2.8 - N+1 QUERY PROBLEM
-        // =========================================
-
-        EntityManager em =
-                JPAUtil.getEMF().createEntityManager();
-
-        try {
-
-            // Query 1: Lay tat ca Department
-            List<Department> departments =
-                    em.createQuery(
-                            "SELECT d FROM Department d",
-                            Department.class
-                    ).getResultList();
-
-            // Moi Department se phat sinh them
-            // 1 query khi truy cap employees lan dau
-            for (Department department : departments) {
-
+            for (Employee employee : department.getEmployees()) {
                 System.out.println(
-                        department.getName()
-                                + " - Employees: "
-                                + department.getEmployees().size()
+                        "  - " + employee.getFullName()
                 );
             }
-
-        } finally {
-            em.close();
         }
+
+
+        /*
+         * TODO 2.8:
+         * 1 query load Departments
+         * + N queries load Employees
+         * => 1 + N queries
+         *
+         * TODO 2.9:
+         * JOIN FETCH Department + Employees
+         * => 1 query
+         */
 
         JPAUtil.close();
     }
