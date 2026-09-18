@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.Objects;
 @Entity
 @Table(name = "projects")
 public class Project {
@@ -99,4 +99,12 @@ public class Project {
     public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if(o==null || getClass() != o.getClass()) return false;
+        Project p= (Project) o;
+        return Objects.equals(this.projectCode,((Project) o).getProjectCode());
+    }
+
 }

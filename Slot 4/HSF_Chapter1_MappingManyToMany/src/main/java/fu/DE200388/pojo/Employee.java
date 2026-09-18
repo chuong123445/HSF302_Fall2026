@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employees")
@@ -134,4 +135,16 @@ public class Employee {
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
+    @Override
+    public boolean equals(Object o){
+        if(this==o) return true;
+        if (o==null ||getClass() !=o.getClass()) return false;
+        Employee e= (Employee) o;
+        return Objects.equals(email,e.getEmail());
+    }
+    @Override
+    public int hashCode(){
+        return this.email.hashCode();
+    }
+
 }
