@@ -4,10 +4,14 @@ import fu.DE200388.pojo.Employee;
 import fu.DE200388.pojo.Project;
 import fu.DE200388.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
 public class EmployeeDAO {
+
+    public EmployeeDAO(EntityManagerFactory emf) {
+    }
 
     // ===== CREATE =====
     public void save(Employee employee) {
