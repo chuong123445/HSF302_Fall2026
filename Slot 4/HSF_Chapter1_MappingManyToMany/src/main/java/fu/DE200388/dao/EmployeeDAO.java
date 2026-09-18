@@ -183,5 +183,40 @@ public class EmployeeDAO {
             em.close();
         }
     }
+    /*
+     * When an employee leaves the company, we should not automatically
+     * remove the Employee or related Project entities using CascadeType.REMOVE.
+     *
+     * Deactivation and project unassignment are different operations.
+     * Setting active = false preserves employee and project history.
+     *
+     * If the business requires the employee to be removed from all current
+     * projects, the relationships should be explicitly removed from
+     * employee.projects instead of cascading REMOVE to Project entities.
+     */
+    // TODO 5.11
+    public void deactivateEmployee(Long employeeId) {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            Employee employee = em.find(Employee.class, employeeId);
+
+            if (employee != null) {
+                employee.setActive(false);
+            }
+
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
 
 }

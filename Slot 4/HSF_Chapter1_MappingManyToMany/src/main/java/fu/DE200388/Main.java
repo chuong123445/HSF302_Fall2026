@@ -13,6 +13,7 @@ import jakarta.persistence.Persistence;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Main {
 
@@ -22,23 +23,29 @@ public class Main {
                 Persistence.createEntityManagerFactory("hsf302FU");
 
         try {
+
             DepartmentDAO departmentDAO = new DepartmentDAO();
             EmployeeDAO employeeDAO = new EmployeeDAO(emf);
             ProjectDAO projectDAO = new ProjectDAO(emf);
 
-            // ==========================================
-            // 1. CREATE DEPARTMENT
-            // ==========================================
 
+            // =====================================================
+            // TODO 5.7 - CREATE TEST DATA
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("TODO 5.7 - CREATE MANY-TO-MANY DATA");
+            System.out.println("========================================");
+
+
+            // Employee vẫn yêu cầu Department từ bài OneToMany
             Department department =
                     new Department("IT Department", "Ha Noi");
 
             department.setLocation("Da Nang");
 
 
-            // ==========================================
-            // 2. CREATE 3 EMPLOYEES
-            // ==========================================
+            // ----- Employees -----
 
             Employee e1 = new Employee(
                     "Nguyen Van A",
@@ -68,43 +75,17 @@ public class Main {
             );
 
 
-            // ==========================================
-            // 3. ASSIGN EMPLOYEES TO DEPARTMENT
-            // ==========================================
-
+            // Gán Department
             department.addEmployee(e1);
             department.addEmployee(e2);
             department.addEmployee(e3);
 
-            /*
-             * addEmployee() của Department:
-             *
-             * employees.add(e);
-             * e.setDepartment(this);
-             *
-             * => Employee.department không còn null.
-             */
 
-
-            // ==========================================
-            // 4. SAVE DEPARTMENT
-            // ==========================================
-
-            /*
-             * Department có:
-             *
-             * cascade = CascadeType.ALL
-             *
-             * nên persist Department sẽ persist luôn
-             * e1, e2, e3.
-             */
-
+            // Cascade ALL -> persist luôn Employees
             departmentDAO.save(department);
 
 
-            // ==========================================
-            // 5. CREATE 2 PROJECTS
-            // ==========================================
+            // ----- Projects -----
 
             Project projectA = new Project(
                     "P001",
@@ -123,54 +104,210 @@ public class Main {
             );
 
 
-            // ==========================================
-            // 6. SAVE PROJECTS
-            // ==========================================
-
             projectDAO.save(projectA);
             projectDAO.save(projectB);
 
 
-            // ==========================================
-            // TODO 5.7
-            // ASSIGN EMPLOYEE <-> PROJECT
-            // ==========================================
+            // ----- ManyToMany -----
 
-            // NV1 -> Project A
+            // NV1 -> A + B
             employeeDAO.assignEmployeeToProject(
                     e1.getId(),
                     projectA.getId()
             );
 
-            // NV1 -> Project B
             employeeDAO.assignEmployeeToProject(
                     e1.getId(),
                     projectB.getId()
             );
 
-            // NV2 -> Project B
+
+            // NV2 -> B
             employeeDAO.assignEmployeeToProject(
                     e2.getId(),
                     projectB.getId()
             );
 
-            // NV3 -> Project A
+
+            // NV3 -> A
             employeeDAO.assignEmployeeToProject(
                     e3.getId(),
                     projectA.getId()
             );
 
 
-            System.out.println("==============================");
-            System.out.println("MANY-TO-MANY TEST COMPLETED");
-            System.out.println("==============================");
-            System.out.println("\n===== TODO 5.9 =====");
+            System.out.println("Created:");
+            System.out.println("NV1 -> Project A, Project B");
+            System.out.println("NV2 -> Project B");
+            System.out.println("NV3 -> Project A");
+
+
+            // =====================================================
+            // TODO 5.8
+            // COUNT ACTIVE EMPLOYEES + SUM SALARY PER PROJECT
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("TODO 5.8 - PROJECT STATISTICS");
+            System.out.println("========================================");
+
+            projectDAO.getProjectEmployeeStatistics();
+
+
+            // =====================================================
+            // TODO 5.10
+            // ACTIVE EMPLOYEES WITH MORE THAN 1 PROJECT
+            //
+            // Chạy trước 5.9 vì hiện tại NV1 có 2 projects
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("TODO 5.10 - EMPLOYEES WITH > 1 PROJECT");
+            System.out.println("========================================");
+
+
+            List<Employee> multipleProjectEmployees =
+                    employeeDAO.findActiveEmployeesWithMultipleProjects();
+
+
+            if (multipleProjectEmployees.isEmpty()) {
+
+                System.out.println("No employee found.");
+
+            } else {
+
+                for (Employee employee : multipleProjectEmployees) {
+
+                    System.out.println(
+                            "Employee: "
+                                    + employee.getFullName()
+                                    + " | Email: "
+                                    + employee.getEmail()
+                    );
+                }
+            }
+
+
+            // =====================================================
+            // TODO 5.9
+            // UNASSIGN NV1 FROM PROJECT A
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("TODO 5.9 - UNASSIGN PROJECT");
+            System.out.println("========================================");
+
+            System.out.println(
+                    "Before: Nguyen Van A -> Project A, Project B"
+            );
+
 
             employeeDAO.unassignEmployeeFromProject(
                     e1.getId(),
                     projectA.getId()
             );
+
+
+            System.out.println(
+                    "Removed: Nguyen Van A -> Project A"
+            );
+
+            System.out.println(
+                    "After: Nguyen Van A -> Project B"
+            );
+
+            System.out.println(
+                    "Check employee_project: exactly 1 row removed."
+            );
+
+
+            // =====================================================
+            // RUN 5.8 AGAIN AFTER UNASSIGN
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("PROJECT STATISTICS AFTER UNASSIGN");
+            System.out.println("========================================");
+
+            projectDAO.getProjectEmployeeStatistics();
+
+
+            // =====================================================
+            // RUN 5.10 AGAIN
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("TODO 5.10 - AFTER UNASSIGN");
+            System.out.println("========================================");
+
+
+            multipleProjectEmployees =
+                    employeeDAO.findActiveEmployeesWithMultipleProjects();
+
+
+            if (multipleProjectEmployees.isEmpty()) {
+
+                System.out.println(
+                        "No active employee participates in more than 1 project."
+                );
+
+            } else {
+
+                for (Employee employee : multipleProjectEmployees) {
+
+                    System.out.println(
+                            employee.getFullName()
+                    );
+                }
+            }
+
+
+            // =====================================================
+            // TODO 5.11
+            // DEACTIVATE EMPLOYEE
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("TODO 5.11 - DEACTIVATE EMPLOYEE");
+            System.out.println("========================================");
+
+
+            System.out.println(
+                    "Deactivate employee: " + e2.getFullName()
+            );
+
+
+            employeeDAO.deactivateEmployee(
+                    e2.getId()
+            );
+
+
+            System.out.println(
+                    "Employee ID "
+                            + e2.getId()
+                            + " is now inactive."
+            );
+
+
+            // =====================================================
+            // RUN 5.8 AGAIN
+            // inactive employee sẽ không được tính
+            // =====================================================
+
+            System.out.println("\n========================================");
+            System.out.println("PROJECT STATISTICS AFTER DEACTIVATE");
+            System.out.println("========================================");
+
+            projectDAO.getProjectEmployeeStatistics();
+
+
+            System.out.println("\n========================================");
+            System.out.println("ALL MANY-TO-MANY TESTS COMPLETED");
+            System.out.println("========================================");
+
+
         } finally {
+
             emf.close();
         }
     }
