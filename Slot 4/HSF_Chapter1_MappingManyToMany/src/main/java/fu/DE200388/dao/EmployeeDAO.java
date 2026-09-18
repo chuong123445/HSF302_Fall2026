@@ -165,7 +165,8 @@ public class EmployeeDAO {
         }
     }
     public List<Employee> findActiveEmployeesWithMultipleProjects() {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+
 
         try {
             String jpql = """
@@ -182,4 +183,5 @@ public class EmployeeDAO {
             em.close();
         }
     }
+
 }
