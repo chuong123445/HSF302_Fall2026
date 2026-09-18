@@ -1,11 +1,12 @@
 package fu.DE200388.pojo;
 
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "projects")
@@ -18,26 +19,18 @@ public class Project {
     @Column(unique = true, nullable = false)
     private String projectCode;
 
-    @Column(nullable = false)
     private String projectName;
 
     private BigDecimal budget;
 
     private LocalDate startDate;
 
-    // Có thể null nếu dự án chưa kết thúc
+    // Có thể null nếu project chưa kết thúc
     private LocalDate endDate;
 
-    // Inverse side của Many-to-Many
-    @ManyToMany(mappedBy = "projects")
-    private List<Employee> employees = new ArrayList<>();
-
-
-    // No-arg constructor
     public Project() {
     }
 
-    // Convenience constructor
     public Project(String projectCode,
                    String projectName,
                    BigDecimal budget,
@@ -49,9 +42,6 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
-
-    // Getter / Setter
 
     public Long getId() {
         return id;
@@ -99,13 +89,5 @@ public class Project {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
     }
 }
