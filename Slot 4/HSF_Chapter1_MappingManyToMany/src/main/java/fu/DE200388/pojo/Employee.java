@@ -146,5 +146,16 @@ public class Employee {
     public int hashCode(){
         return this.email.hashCode();
     }
+    // TODO 5.5 - Helper methods
+
+    public void assignToProject(Project p) {
+        this.projects.add(p);
+        p.getEmployees().add(this);
+    }
+
+    public void removeFromProject(Project p) {
+        this.projects.remove(p);
+        p.getEmployees().remove(this);
+    }
 
 }
