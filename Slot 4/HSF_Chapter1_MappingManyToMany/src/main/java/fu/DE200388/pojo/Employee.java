@@ -157,5 +157,9 @@ public class Employee {
         this.projects.remove(p);
         p.getEmployees().remove(this);
     }
-
+    // TODO 5.9 - Remove Employee from Project
+    public void unassignFromProject(Project p) {
+        this.projects.remove(p);
+        p.getEmployees().remove(this);
+    }
 }

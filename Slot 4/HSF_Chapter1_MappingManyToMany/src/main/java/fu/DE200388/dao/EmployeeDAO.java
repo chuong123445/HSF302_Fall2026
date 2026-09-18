@@ -141,4 +141,45 @@ public class EmployeeDAO {
             em.close();
         }
     }
+    public void unassignEmployeeFromProject(Long employeeId, Long projectId) {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+
+
+        try {
+            em.getTransaction().begin();
+
+            Employee employee = em.find(Employee.class, employeeId);
+            Project project = em.find(Project.class, projectId);
+
+            employee.unassignFromProject(project);
+
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+    public List<Employee> findActiveEmployeesWithMultipleProjects() {
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            String jpql = """
+                SELECT e
+                FROM Employee e
+                WHERE e.active = true
+                AND SIZE(e.projects) > 1
+                """;
+
+            return em.createQuery(jpql, Employee.class)
+                    .getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
 }

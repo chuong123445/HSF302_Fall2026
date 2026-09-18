@@ -164,7 +164,12 @@ public class Main {
             System.out.println("==============================");
             System.out.println("MANY-TO-MANY TEST COMPLETED");
             System.out.println("==============================");
+            System.out.println("\n===== TODO 5.9 =====");
 
+            employeeDAO.unassignEmployeeFromProject(
+                    e1.getId(),
+                    projectA.getId()
+            );
         } finally {
             emf.close();
         }
