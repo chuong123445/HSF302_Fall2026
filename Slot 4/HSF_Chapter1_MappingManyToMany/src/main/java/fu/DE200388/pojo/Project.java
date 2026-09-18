@@ -27,7 +27,9 @@ public class Project {
 
     // Có thể null nếu project chưa kết thúc
     private LocalDate endDate;
-
+    // TODO 5.3 - Inverse side
+    @ManyToMany(mappedBy = "projects")
+    private Set<Employee> employees = new HashSet<>();
     public Project() {
     }
 
@@ -89,5 +91,12 @@ public class Project {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }
