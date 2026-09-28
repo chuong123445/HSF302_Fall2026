@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,5 +37,22 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentStatDTO> getStatistics() {
         return departmentRepository.getStatistics();
+    }
+
+    @Override
+    public Optional<Department> findByCode(String code) {
+        if (code == null || code.isBlank()) {
+            return Optional.empty();
+        }
+        return departmentRepository.findByCode(code.trim());
+    }
+
+    @Override
+    public Department getWithStudents(String code) {
+        if (code == null || code.isBlank()) {
+            throw new IllegalArgumentException("code must not be blank");
+        }
+        return departmentRepository.findByCodeWithStudents(code.trim())
+                .orElseThrow(() -> new IllegalArgumentException("Department not found: " + code));
     }
 }

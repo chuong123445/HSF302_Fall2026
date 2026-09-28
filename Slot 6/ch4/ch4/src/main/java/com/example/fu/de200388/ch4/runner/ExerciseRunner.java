@@ -2,8 +2,10 @@ package com.example.fu.de200388.ch4.runner;
 
 import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.pojo.Gender;
+import com.example.fu.de200388.ch4.pojo.Department;
 import com.example.fu.de200388.ch4.service.DepartmentService;
 import com.example.fu.de200388.ch4.service.StudentService;
+import org.hibernate.LazyInitializationException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo13();
         runTodo14();
         runTodo15();
+        runTodo16();
     }
 
     private void runTodo6() {
@@ -155,5 +158,21 @@ public class ExerciseRunner implements CommandLineRunner {
     private void runTodo15() {
         System.out.println("\n===== TODO 15: Students above average GPA =====");
         studentService.findAboveAverageGpa().forEach(System.out::println);
+    }
+
+    private void runTodo16() {
+        System.out.println("\n===== TODO 16: Lazy loading and JOIN FETCH =====");
+
+        try {
+            Department department = departmentService.findByCode("AI")
+                    .orElseThrow(() -> new IllegalStateException("Department AI not found"));
+            System.out.println("AI students loaded lazily: " + department.getStudents().size());
+        } catch (LazyInitializationException exception) {
+            System.out.println("Caught exception: " + exception.getClass().getSimpleName());
+        }
+
+        Department department = departmentService.getWithStudents("AI");
+        System.out.println(department.getCode() + " - " + department.getName());
+        department.getStudents().forEach(System.out::println);
     }
 }

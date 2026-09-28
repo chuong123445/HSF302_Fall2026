@@ -4,8 +4,10 @@ import com.example.fu.de200388.ch4.dto.DepartmentStatDTO;
 import com.example.fu.de200388.ch4.pojo.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
@@ -21,4 +23,14 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
             ORDER BY d.code
             """)
     List<DepartmentStatDTO> getStatistics();
+
+    Optional<Department> findByCode(String code);
+
+    @Query("""
+            SELECT DISTINCT d
+            FROM Department d
+            LEFT JOIN FETCH d.students
+            WHERE d.code = :code
+            """)
+    Optional<Department> findByCodeWithStudents(@Param("code") String code);
 }
