@@ -1,6 +1,7 @@
 package com.example.fu.de200388.ch4.service;
 
 import com.example.fu.de200388.ch4.pojo.Student;
+import com.example.fu.de200388.ch4.pojo.Gender;
 import com.example.fu.de200388.ch4.repository.StudentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 @Transactional(readOnly = true)
@@ -101,5 +103,29 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> findWithoutEmail() {
         return studentRepository.findByEmailIsNull();
+    }
+
+    @Override
+    public List<Student> findByGpaRange(double min, double max) {
+        if (min > max) {
+            throw new IllegalArgumentException("min must be less than or equal to max");
+        }
+        return studentRepository.findByGpaBetweenOrderByGpaDesc(min, max);
+    }
+
+    @Override
+    public List<Student> findActiveByGender(Gender gender) {
+        if (gender == null) {
+            return List.of();
+        }
+        return studentRepository.findByGenderAndActiveTrue(gender);
+    }
+
+    @Override
+    public List<Student> findBornAfter(LocalDate date) {
+        if (date == null) {
+            return List.of();
+        }
+        return studentRepository.findByDobAfter(date);
     }
 }

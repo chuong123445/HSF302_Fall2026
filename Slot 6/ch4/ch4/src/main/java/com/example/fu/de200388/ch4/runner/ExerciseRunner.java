@@ -1,12 +1,15 @@
 package com.example.fu.de200388.ch4.runner;
 
 import com.example.fu.de200388.ch4.pojo.Student;
+import com.example.fu.de200388.ch4.pojo.Gender;
 import com.example.fu.de200388.ch4.service.DepartmentService;
 import com.example.fu.de200388.ch4.service.StudentService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 @Order(2)
@@ -26,6 +29,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo7();
         runTodo8();
         runTodo9();
+        runTodo10();
     }
 
     private void runTodo6() {
@@ -79,5 +83,18 @@ public class ExerciseRunner implements CommandLineRunner {
 
         System.out.println("Students without email:");
         studentService.findWithoutEmail().forEach(System.out::println);
+    }
+
+    private void runTodo10() {
+        System.out.println("\n===== TODO 10: Derived query by GPA, gender and DOB =====");
+
+        System.out.println("Students with GPA from 3.0 to 3.6:");
+        studentService.findByGpaRange(3.0, 3.6).forEach(System.out::println);
+
+        System.out.println("Active male students:");
+        studentService.findActiveByGender(Gender.MALE).forEach(System.out::println);
+
+        System.out.println("Students born after 2005-01-01:");
+        studentService.findBornAfter(LocalDate.of(2005, 1, 1)).forEach(System.out::println);
     }
 }
