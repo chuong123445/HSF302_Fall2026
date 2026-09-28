@@ -187,4 +187,21 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentSummary> getActiveSummaries() {
         return studentRepository.getActiveSummaries();
     }
+
+    @Override
+    public Page<Student> findActiveByDepartment(String departmentCode, int pageIndex, int size) {
+        if (departmentCode == null || departmentCode.isBlank()) {
+            throw new IllegalArgumentException("departmentCode must not be blank");
+        }
+        if (pageIndex < 0) {
+            throw new IllegalArgumentException("pageIndex must be greater than or equal to 0");
+        }
+        if (size <= 0) {
+            throw new IllegalArgumentException("size must be greater than 0");
+        }
+        return studentRepository.findActiveByDepartment(
+                departmentCode.trim(),
+                PageRequest.of(pageIndex, size)
+        );
+    }
 }
