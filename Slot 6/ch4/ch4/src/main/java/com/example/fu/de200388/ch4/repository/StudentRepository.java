@@ -1,5 +1,6 @@
 package com.example.fu.de200388.ch4.repository;
 
+import com.example.fu.de200388.ch4.dto.StudentSummary;
 import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.pojo.Gender;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -77,4 +78,15 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
             @Param("deptCode") String departmentCode,
             @Param("limit") int limit
     );
+
+    @Query("""
+            SELECT s.studentCode AS studentCode,
+                   s.fullName AS fullName,
+                   s.gpa AS gpa,
+                   s.department.name AS departmentName
+            FROM Student s
+            WHERE s.active = true
+            ORDER BY s.fullName
+            """)
+    List<StudentSummary> getActiveSummaries();
 }

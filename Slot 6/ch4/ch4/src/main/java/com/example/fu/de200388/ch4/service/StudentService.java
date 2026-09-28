@@ -1,5 +1,6 @@
 package com.example.fu.de200388.ch4.service;
 
+import com.example.fu.de200388.ch4.dto.StudentSummary;
 import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.pojo.Gender;
 import org.springframework.data.domain.Page;
@@ -49,4 +50,6 @@ public interface StudentService {
     List<Student> findAboveAverageGpa();
 
     List<Student> findTopNInDepartment(String departmentCode, int n);
+
+    List<StudentSummary> getActiveSummaries();
 }

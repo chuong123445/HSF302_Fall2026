@@ -40,6 +40,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo15();
         runTodo16();
         runTodo17();
+        runTodo18();
     }
 
     private void runTodo6() {
@@ -181,5 +182,16 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("\n===== TODO 17: Native SQL top N =====");
         System.out.println("Top 2 SE students by GPA:");
         studentService.findTopNInDepartment("SE", 2).forEach(System.out::println);
+    }
+
+    private void runTodo18() {
+        System.out.println("\n===== TODO 18: Active student projection =====");
+        studentService.getActiveSummaries().forEach(summary -> System.out.printf(
+                "%s - %s - %.1f - %s%n",
+                summary.getStudentCode(),
+                summary.getFullName(),
+                summary.getGpa(),
+                summary.getDepartmentName()
+        ));
     }
 }
