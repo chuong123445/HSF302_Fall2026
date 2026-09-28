@@ -56,4 +56,6 @@ public interface StudentService {
     Page<Student> findActiveByDepartment(String departmentCode, int pageIndex, int size);
 
     List<Student> search(String keyword, String departmentCode, Double minimumGpa, Boolean active);
+
+    Student updateGpa(String studentCode, double newGpa);
 }

@@ -223,4 +223,20 @@ public class StudentServiceImpl implements StudentService {
                 Sort.by(Sort.Direction.ASC, "fullName")
         );
     }
+
+    @Override
+    @Transactional
+    public Student updateGpa(String studentCode, double newGpa) {
+        if (studentCode == null || studentCode.isBlank()) {
+            throw new IllegalArgumentException("studentCode must not be blank");
+        }
+        if (newGpa < 0 || newGpa > 4) {
+            throw new IllegalArgumentException("GPA must be between 0 and 4");
+        }
+
+        Student student = studentRepository.findByStudentCode(studentCode.trim())
+                .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentCode));
+        student.setGpa(newGpa);
+        return student;
+    }
 }

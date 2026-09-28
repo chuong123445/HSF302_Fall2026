@@ -43,6 +43,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo18();
         runTodo19();
         runTodo24();
+        runTodo20();
     }
 
     private void runTodo6() {
@@ -218,5 +219,11 @@ public class ExerciseRunner implements CommandLineRunner {
 
         System.out.println("Students whose name contains 'van':");
         studentService.search("van", null, null, null).forEach(System.out::println);
+    }
+
+    private void runTodo20() {
+        System.out.println("\n===== TODO 20: Update student GPA =====");
+        Student updatedStudent = studentService.updateGpa("SE001", 3.4);
+        System.out.println("Updated student: " + updatedStudent);
     }
 }
