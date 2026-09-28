@@ -48,4 +48,13 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
             @Param("deptCode") String departmentCode,
             @Param("minGpa") double minGpa
     );
+
+    @Query("""
+            SELECT s
+            FROM Student s
+            WHERE LOWER(s.fullName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(COALESCE(s.email, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            ORDER BY s.fullName
+            """)
+    List<Student> searchByKeyword(@Param("keyword") String keyword);
 }
