@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
 @Component
 @Order(2)
@@ -33,6 +34,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo11();
         runTodo12();
         runTodo13();
+        runTodo14();
     }
 
     private void runTodo6() {
@@ -131,5 +133,21 @@ public class ExerciseRunner implements CommandLineRunner {
 
         System.out.println("Students matching 'gmail':");
         studentService.searchByKeyword("gmail").forEach(System.out::println);
+    }
+
+    private void runTodo14() {
+        System.out.println("\n===== TODO 14: Department statistics =====");
+        departmentService.getStatistics().forEach(stat -> {
+            String averageGpa = stat.averageGpa() == null
+                    ? "null"
+                    : String.format(Locale.US, "%.3f", stat.averageGpa());
+            System.out.printf(
+                    "%s - %s: %d students, average GPA = %s%n",
+                    stat.code(),
+                    stat.name(),
+                    stat.studentCount(),
+                    averageGpa
+            );
+        });
     }
 }
