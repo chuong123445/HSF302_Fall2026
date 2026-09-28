@@ -65,4 +65,16 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
             ORDER BY s.gpa DESC
             """)
     List<Student> findAboveAverageGpa();
+
+    @Query(value = """
+            SELECT TOP (:limit) s.*
+            FROM students s
+            JOIN departments d ON d.id = s.department_id
+            WHERE d.code = :deptCode
+            ORDER BY s.gpa DESC
+            """, nativeQuery = true)
+    List<Student> findTopNInDepartment(
+            @Param("deptCode") String departmentCode,
+            @Param("limit") int limit
+    );
 }
