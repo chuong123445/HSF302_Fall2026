@@ -55,4 +55,25 @@ public class StudentServiceImpl implements StudentService {
         );
         return studentRepository.findAll(pageRequest);
     }
+
+    @Override
+    public Optional<Student> findByStudentCode(String code) {
+        if (code == null || code.isBlank()) {
+            return Optional.empty();
+        }
+        return studentRepository.findByStudentCode(code.trim());
+    }
+
+    @Override
+    public boolean isEmailExisted(String email) {
+        if (email == null || email.isBlank()) {
+            return false;
+        }
+        return studentRepository.existsByEmail(email.trim());
+    }
+
+    @Override
+    public long countActive() {
+        return studentRepository.countByActiveTrue();
+    }
 }

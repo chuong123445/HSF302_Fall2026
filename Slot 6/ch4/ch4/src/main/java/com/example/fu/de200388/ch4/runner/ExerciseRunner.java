@@ -24,6 +24,7 @@ public class ExerciseRunner implements CommandLineRunner {
     public void run(String... args) {
         runTodo6();
         runTodo7();
+        runTodo8();
     }
 
     private void runTodo6() {
@@ -51,5 +52,18 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("totalElements = " + page.getTotalElements());
         System.out.println("totalPages = " + page.getTotalPages());
         System.out.println("hasNext = " + page.hasNext());
+    }
+
+    private void runTodo8() {
+        System.out.println("\n===== TODO 8: Derived query by code, email and active status =====");
+        System.out.println("Student code AI002: " + studentService.findByStudentCode("AI002")
+                .map(Object::toString)
+                .orElse("Not found"));
+        System.out.println("Student code XX999: " + studentService.findByStudentCode("XX999")
+                .map(Object::toString)
+                .orElse("Not found"));
+        System.out.println("Email binh.tt@fpt.edu.vn exists: "
+                + studentService.isEmailExisted("binh.tt@fpt.edu.vn"));
+        System.out.println("Active students: " + studentService.countActive());
     }
 }
