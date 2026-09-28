@@ -76,4 +76,30 @@ public class StudentServiceImpl implements StudentService {
     public long countActive() {
         return studentRepository.countByActiveTrue();
     }
+
+    @Override
+    public List<Student> searchByName(String kw) {
+        if (kw == null || kw.isBlank()) {
+            return List.of();
+        }
+        return studentRepository.findByFullNameContainingIgnoreCase(kw.trim());
+    }
+
+    @Override
+    public List<Student> findByEmailDomain(String domain) {
+        if (domain == null || domain.isBlank()) {
+            return List.of();
+        }
+
+        String normalizedDomain = domain.trim();
+        if (!normalizedDomain.startsWith("@")) {
+            normalizedDomain = "@" + normalizedDomain;
+        }
+        return studentRepository.findByEmailEndingWith(normalizedDomain);
+    }
+
+    @Override
+    public List<Student> findWithoutEmail() {
+        return studentRepository.findByEmailIsNull();
+    }
 }
