@@ -44,6 +44,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo19();
         runTodo24();
         runTodo20();
+        runTodo21();
     }
 
     private void runTodo6() {
@@ -225,5 +226,12 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("\n===== TODO 20: Update student GPA =====");
         Student updatedStudent = studentService.updateGpa("SE001", 3.4);
         System.out.println("Updated student: " + updatedStudent);
+    }
+
+    private void runTodo21() {
+        System.out.println("\n===== TODO 21: Deactivate students with low GPA =====");
+        int affectedRows = studentService.deactivateLowGpa(2.5);
+        System.out.println("Deactivated students: " + affectedRows);
+        System.out.println("Active students remaining: " + studentService.countActive());
     }
 }

@@ -239,4 +239,10 @@ public class StudentServiceImpl implements StudentService {
         student.setGpa(newGpa);
         return student;
     }
+
+    @Override
+    @Transactional
+    public int deactivateLowGpa(double threshold) {
+        return studentRepository.deactivateLowGpa(threshold);
+    }
 }
