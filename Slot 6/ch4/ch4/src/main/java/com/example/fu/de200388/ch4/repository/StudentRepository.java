@@ -125,4 +125,6 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
             @Param("sourceDepartment") Department sourceDepartment,
             @Param("targetDepartment") Department targetDepartment
     );
+
+    long deleteByActiveFalse();
 }
