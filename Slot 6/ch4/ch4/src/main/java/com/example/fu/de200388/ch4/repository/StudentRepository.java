@@ -1,6 +1,7 @@
 package com.example.fu.de200388.ch4.repository;
 
 import com.example.fu.de200388.ch4.dto.StudentSummary;
+import com.example.fu.de200388.ch4.pojo.Department;
 import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.pojo.Gender;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -113,4 +114,15 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
               AND s.gpa < :threshold
             """)
     int deactivateLowGpa(@Param("threshold") double threshold);
+
+    @Modifying(clearAutomatically = true)
+    @Query("""
+            UPDATE Student s
+            SET s.department = :targetDepartment
+            WHERE s.department = :sourceDepartment
+            """)
+    int transferStudents(
+            @Param("sourceDepartment") Department sourceDepartment,
+            @Param("targetDepartment") Department targetDepartment
+    );
 }
