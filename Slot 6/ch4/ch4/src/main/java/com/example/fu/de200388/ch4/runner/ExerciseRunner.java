@@ -30,6 +30,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo8();
         runTodo9();
         runTodo10();
+        runTodo11();
     }
 
     private void runTodo6() {
@@ -96,5 +97,21 @@ public class ExerciseRunner implements CommandLineRunner {
 
         System.out.println("Students born after 2005-01-01:");
         studentService.findBornAfter(LocalDate.of(2005, 1, 1)).forEach(System.out::println);
+    }
+
+    private void runTodo11() {
+        System.out.println("\n===== TODO 11: Derived query by department and ranking =====");
+
+        System.out.println("Students in SE ordered by full name:");
+        studentService.findByDepartment("SE").forEach(System.out::println);
+
+        System.out.println("Students in AI: " + studentService.countByDepartment("AI"));
+
+        System.out.println("Top 3 students by GPA:");
+        studentService.findTop3ByGpa().forEach(System.out::println);
+
+        System.out.println("Departments without students:");
+        departmentService.findDepartmentsWithoutStudents().forEach(department ->
+                System.out.println(department.getCode() + " - " + department.getName()));
     }
 }

@@ -128,4 +128,25 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentRepository.findByDobAfter(date);
     }
+
+    @Override
+    public List<Student> findByDepartment(String departmentCode) {
+        if (departmentCode == null || departmentCode.isBlank()) {
+            return List.of();
+        }
+        return studentRepository.findByDepartment_CodeOrderByFullNameAsc(departmentCode.trim());
+    }
+
+    @Override
+    public long countByDepartment(String departmentCode) {
+        if (departmentCode == null || departmentCode.isBlank()) {
+            return 0;
+        }
+        return studentRepository.countByDepartment_Code(departmentCode.trim());
+    }
+
+    @Override
+    public List<Student> findTop3ByGpa() {
+        return studentRepository.findTop3ByOrderByGpaDesc();
+    }
 }
