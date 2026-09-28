@@ -4,11 +4,13 @@ import com.example.fu.de200388.ch4.dto.StudentSummary;
 import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.pojo.Gender;
 import com.example.fu.de200388.ch4.repository.StudentRepository;
+import com.example.fu.de200388.ch4.specification.StudentSpecs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -202,6 +204,23 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findActiveByDepartment(
                 departmentCode.trim(),
                 PageRequest.of(pageIndex, size)
+        );
+    }
+
+    @Override
+    public List<Student> search(
+            String keyword,
+            String departmentCode,
+            Double minimumGpa,
+            Boolean active
+    ) {
+        Specification<Student> specification = StudentSpecs.nameContains(keyword)
+                .and(StudentSpecs.inDepartment(departmentCode))
+                .and(StudentSpecs.gpaAtLeast(minimumGpa))
+                .and(StudentSpecs.isActive(active));
+        return studentRepository.findAll(
+                specification,
+                Sort.by(Sort.Direction.ASC, "fullName")
         );
     }
 }

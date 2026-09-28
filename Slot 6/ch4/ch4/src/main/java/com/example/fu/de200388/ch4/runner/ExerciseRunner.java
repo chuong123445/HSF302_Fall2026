@@ -42,6 +42,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo17();
         runTodo18();
         runTodo19();
+        runTodo24();
     }
 
     private void runTodo6() {
@@ -207,5 +208,15 @@ public class ExerciseRunner implements CommandLineRunner {
         page.getContent().forEach(System.out::println);
         System.out.println("totalElements = " + page.getTotalElements());
         System.out.println("totalPages = " + page.getTotalPages());
+    }
+
+    private void runTodo24() {
+        System.out.println("\n===== TODO 24: Dynamic specification search =====");
+
+        System.out.println("Active AI students with GPA at least 3.0:");
+        studentService.search(null, "AI", 3.0, true).forEach(System.out::println);
+
+        System.out.println("Students whose name contains 'van':");
+        studentService.search("van", null, null, null).forEach(System.out::println);
     }
 }

@@ -54,4 +54,6 @@ public interface StudentService {
     List<StudentSummary> getActiveSummaries();
 
     Page<Student> findActiveByDepartment(String departmentCode, int pageIndex, int size);
+
+    List<Student> search(String keyword, String departmentCode, Double minimumGpa, Boolean active);
 }
