@@ -31,6 +31,7 @@ public class ExerciseRunner implements CommandLineRunner {
         runTodo9();
         runTodo10();
         runTodo11();
+        runTodo12();
     }
 
     private void runTodo6() {
@@ -113,5 +114,11 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("Departments without students:");
         departmentService.findDepartmentsWithoutStudents().forEach(department ->
                 System.out.println(department.getCode() + " - " + department.getName()));
+    }
+
+    private void runTodo12() {
+        System.out.println("\n===== TODO 12: JPQL with named parameters =====");
+        System.out.println("SE students with GPA at least 3.0:");
+        studentService.findGoodStudents("SE", 3.0).forEach(System.out::println);
     }
 }
