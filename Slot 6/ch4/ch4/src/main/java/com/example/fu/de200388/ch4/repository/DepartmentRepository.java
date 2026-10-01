@@ -32,5 +32,11 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
             LEFT JOIN FETCH d.students
             WHERE d.code = :code
             """)
-    Optional<Department> findByCodeWithStudents(@Param("code") String code);
+    Optional<Department> findDepartmentByCodeWithStudents(@Param("code") String code);
+
+    @Query(value = "Select d.id, d.code, d.name, count(s.id) " +
+            "From departments d left join students s on s.department_id= d.id " +
+            "Group by d.id, d.name,d.code " +
+            "Having count(s.id) > 3 ",nativeQuery = true)
+    List<Department> findAllDepartmentHasMoreThan3Student();
 }

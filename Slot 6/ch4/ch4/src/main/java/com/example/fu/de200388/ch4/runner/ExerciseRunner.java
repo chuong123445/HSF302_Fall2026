@@ -7,6 +7,7 @@ import com.example.fu.de200388.ch4.service.DepartmentService;
 import com.example.fu.de200388.ch4.service.StudentService;
 import org.hibernate.LazyInitializationException;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.Locale;
 
 @Component
 @Order(2)
+@Profile("ex1")
 public class ExerciseRunner implements CommandLineRunner {
 
     private final DepartmentService departmentService;
@@ -28,27 +30,30 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        runTodo6();
-        runTodo7();
-        runTodo8();
-        runTodo9();
-        runTodo10();
-        runTodo11();
-        runTodo12();
-        runTodo13();
-        runTodo14();
-        runTodo15();
-        runTodo16();
-        runTodo17();
-        runTodo18();
-        runTodo19();
-        runTodo24();
-        runTodo20();
-        runTodo21();
-        runTodo22();
-        runTodo23();
+//        runTodo6();
+//        runTodo7();
+//        runTodo8();
+//        runTodo9();
+//        runTodo10();
+//        runTodo11();
+//        runTodo12();
+//        runTodo13();
+//        runTodo14();
+//        runTodo15();
+//        runTodo16();
+//        runTodo17();
+//        runTodo18();
+//        runTodo19();
+//        runTodo24();
+//        runTodo20();
+//        runTodo21();
+//        runTodo22();
+//        runTodo23();
+        test();
     }
-
+    private void test(){
+        departmentService.findDepartmentHasMore3Student().forEach(System.out::println);
+    }
     private void runTodo6() {
         System.out.println("\n===== TODO 6: Built-in repository methods =====");
         System.out.println("Total departments: " + departmentService.count());

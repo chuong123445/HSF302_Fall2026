@@ -58,7 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (code == null || code.isBlank()) {
             throw new IllegalArgumentException("code must not be blank");
         }
-        return departmentRepository.findByCodeWithStudents(code.trim())
+        return departmentRepository.findDepartmentByCodeWithStudents(code.trim())
                 .orElseThrow(() -> new IllegalArgumentException("Department not found: " + code));
     }
 
@@ -93,5 +93,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> findAll() {
         return departmentRepository.findAll();
+    }
+    public List<Department> findDepartmentHasMore3Student(){
+               return  departmentRepository.findAllDepartmentHasMoreThan3Student();
     }
 }
