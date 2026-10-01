@@ -41,4 +41,19 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return getCourse(courseCode).getStudents().stream().
                 sorted(Comparator.comparing(Student::getFullName)).toList();
     }
+    @Override
+    public List<Student> findStudentsInCourse(String courseCode) {
+        return studentRepository.findByCourses_CodeOrderByFullNameAsc(courseCode);
+    }
+
+    @Override
+    public long countStudentsInCourse(String courseCode) {
+        return studentRepository.countByCourses_Code(courseCode);
+    }
+
+    @Override
+    public List<Student> findActiveStudentsInCourse(String courseCode) {
+        return studentRepository.findByCourses_CodeAndActiveTrueOrderByFullNameAsc(courseCode);
+    }
+
 }

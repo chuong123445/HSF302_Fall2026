@@ -41,7 +41,10 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     long countByDepartment_Code(String departmentCode);
 
     List<Student> findTop3ByOrderByGpaDesc();
-
+    //ex2
+    List<Student> findByCourses_CodeOrderByFullNameAsc(String courseName);
+    long countByCourses_Code(String courseName);
+    List<Student> findByCourses_CodeAndActiveTrueOrderByFullNameAsc(String courseName);
     @Query("""
             SELECT s
             FROM Student s

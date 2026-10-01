@@ -97,4 +97,5 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Department> findDepartmentHasMore3Student(){
                return  departmentRepository.findAllDepartmentHasMoreThan3Student();
     }
+
 }
