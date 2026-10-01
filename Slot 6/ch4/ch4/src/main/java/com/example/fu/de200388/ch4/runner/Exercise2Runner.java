@@ -1,15 +1,22 @@
 package com.example.fu.de200388.ch4.runner;
 
+import com.example.fu.de200388.ch4.pojo.Course;
+import com.example.fu.de200388.ch4.service.CourseService;
+import com.example.fu.de200388.ch4.service.EnrollmentService;
+import com.example.fu.de200388.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 @Component
 @Order(3)
 @Profile("ex2")
 @RequiredArgsConstructor
-public class Exercise2Runner {
+public class Exercise2Runner implements CommandLineRunner {
     // CHỈ inject Service interface
     private final CourseService courseService;
     private final EnrollmentService enrollmentService;
@@ -26,30 +33,34 @@ public class Exercise2Runner {
 
     private void partB() {
         todo6();
-        todo7();
+//        todo7();
     }
     private void partC() {
-        todo8();
-        todo9();
-        todo10();
-        todo11(); }
+//        todo8();
+//        todo9();
+//        todo10();
+//        todo11();
+    }
     private void partD() {
-        todo12();
-        todo13();
-        todo14();
-        todo15();
-        todo16();
-        todo17();
-        todo18();
-        todo19(); }
+//        todo12();
+//        todo13();
+//        todo14();
+//        todo15();
+//        todo16();
+//        todo17();
+//        todo18();
+//        todo19();
+    }
     private void bonus() {
-        todo25(); }
+//        todo25();
+    }
     private void partE() {
-        todo20();
-        todo21();
-        todo22();
-        todo23();
-        todo24(); }
+//        todo20();
+//        todo21();
+//        todo22();
+//        todo23();
+//        todo24();
+    }
 
     // ===== helpers =====
     private void title(String t) {
@@ -71,4 +82,14 @@ public class Exercise2Runner {
             System.out.println("   [FAIL] " + label + " -> " + e.getMessage());
         }
     }
+    private void todo6() {
+        title("TODO 6: count, findAll(Sort), findById");
+        System.out.println("Total courses: " + courseService.count());
+        printList("All courses order by code", courseService.findAllOrderByCode());
+        for (long id : new long[]{2L, 99L}) {
+            System.out.println("findById(" + id + "): "
+                    + courseService.findById(id).map(Course::toString).orElse("Not found"));
+        }
+    }
+
 }

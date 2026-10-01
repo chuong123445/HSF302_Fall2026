@@ -1,13 +1,27 @@
 package com.example.fu.de200388.ch4.service;
 
+import com.example.fu.de200388.ch4.pojo.Course;
 import com.example.fu.de200388.ch4.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CourseServiceIml implements CourseService {
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
+    public long count(){
+        return courseRepository.count();
+    }
+    public List<Course> findAllOrderByCode(){
+        return courseRepository.findAll(Sort.by("code"));
+    }
+    public Optional<Course> findById(Long id){
+        return courseRepository.findById(id);
+    }
 }
