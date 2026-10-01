@@ -1,5 +1,7 @@
 package com.example.fu.de200388.ch4.service;
 
+import com.example.fu.de200388.ch4.repository.CourseRepository;
+import com.example.fu.de200388.ch4.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EnrollmentServiceImpl implements EnrollmentService {
+    private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 }
