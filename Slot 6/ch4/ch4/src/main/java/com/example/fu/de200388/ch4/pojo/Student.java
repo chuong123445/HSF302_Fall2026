@@ -1,18 +1,11 @@
 package com.example.fu.de200388.ch4.pojo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -47,7 +40,27 @@ public class Student {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
-
+    @ManyToMany
+    @JoinTable(name = "student_courses",
+    joinColumns = @JoinColumn(name="student_id"),
+    inverseJoinColumns = @JoinColumn(name="course_id"))
+    private Set<Course> courses= new HashSet<>();
+    public void enroll(Course c){
+        courses.add(c);
+        c.getStudents().add(this);
+    }
+    public void unenroll(Course c){
+        courses.remove(c);
+        c.getStudents().remove(this);
+    }
+    public boolean equals(Object o){
+        if(this==o) return true;
+        if( !(o instanceof Student other)) return false;
+        return studentCode != null && other.getStudentCode().equals(getStudentCode());
+    }
+    public int hashCode(){
+        return Objects.hashCode(studentCode);
+    }
     protected Student() {
     }
 

@@ -29,17 +29,27 @@ public class Course {
     @Column(nullable = false,length = 10)
     private String semester;
     @ManyToMany(mappedBy = "courses")
-    Set<Student> students= new HashSet<>();
+    private Set<Student> students= new HashSet<>();
+
+    public Course( String code, String name, Integer credits, Integer capacity, String semester) {
+        this.code = code;
+        this.name = name;
+        this.credits = credits;
+        this.capacity = capacity;
+        this.semester = semester;
+    }
+
     public boolean equals(Object o){
         if(this==o) return true;
         if(!(o instanceof Course other)) return false;
-        return this.code!=null && this.code = other.code;
+        return this.code !=null && this.code.equals(other.code);
     }
-    public String hashCode(){
+    public int hashCode(){
         return Objects.hashCode(this.code);
     }
     public String toString(){
         return String.format("%s | %-40s | %d credits | cap %d | %s",
                 code,name,credits,capacity,semester);
     }
+
 }
