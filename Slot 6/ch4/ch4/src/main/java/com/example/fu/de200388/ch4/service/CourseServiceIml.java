@@ -36,6 +36,7 @@ public class CourseServiceIml implements CourseService {
 
     @Override
     public long countBySemester(String semester) {
+        return courseRepository.countBySemester(semester);
     }
 
 }
