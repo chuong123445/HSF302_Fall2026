@@ -45,6 +45,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     List<Student> findByCourses_CodeOrderByFullNameAsc(String courseName);
     long countByCourses_Code(String courseName);
     List<Student> findByCourses_CodeAndActiveTrueOrderByFullNameAsc(String courseName);
+
     @Query("""
             SELECT s
             FROM Student s

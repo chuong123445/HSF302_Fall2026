@@ -264,4 +264,5 @@ public class ExerciseRunner implements CommandLineRunner {
         System.out.println("Department statistics after deletion:");
         printDepartmentStatistics();
     }
+
 }
