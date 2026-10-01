@@ -24,4 +24,18 @@ public class CourseServiceIml implements CourseService {
     public Optional<Course> findById(Long id){
         return courseRepository.findById(id);
     }
+    @Override
+    public Optional<Course> findByCode(String code) {
+        return courseRepository.findByCode(code);
+    }
+
+    @Override
+    public List<Course> findBySemester(String semester) {
+        return courseRepository.findBySemesterOrderByCodeAsc(semester);
+    }
+
+    @Override
+    public long countBySemester(String semester) {
+    }
+
 }

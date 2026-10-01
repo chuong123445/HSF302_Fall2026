@@ -1,6 +1,8 @@
 package com.example.fu.de200388.ch4.pojo;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -9,6 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "students")
+@Getter
+@Setter
 public class Student {
 
     @Id
@@ -80,74 +84,6 @@ public class Student {
         this.dob = dob;
         this.gpa = gpa;
         this.active = active;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getStudentCode() {
-        return studentCode;
-    }
-
-    public void setStudentCode(String studentCode) {
-        this.studentCode = studentCode;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-
-    public double getGpa() {
-        return gpa;
-    }
-
-    public void setGpa(double gpa) {
-        this.gpa = gpa;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 
     @Override
