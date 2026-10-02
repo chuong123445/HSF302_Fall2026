@@ -1,6 +1,7 @@
 package com.example.fu.de200388.ch4.repository;
 
 import com.example.fu.de200388.ch4.dto.StudentSummary;
+import com.example.fu.de200388.ch4.pojo.Course;
 import com.example.fu.de200388.ch4.pojo.Department;
 import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.pojo.Gender;
@@ -42,9 +43,11 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
 
     List<Student> findTop3ByOrderByGpaDesc();
     //ex2
-    List<Student> findByCourses_CodeOrderByFullNameAsc(String courseName);
+    List<Student> findByCourses_CodeOrderByFullNameAsc(String courseCode);
     long countByCourses_Code(String courseName);
-    List<Student> findByCourses_CodeAndActiveTrueOrderByFullNameAsc(String courseName);
+    List<Student> findByCourses_CodeAndActiveTrueOrderByFullNameAsc(String courseCode);
+    List<Student> findByCoursesIsEmpty();
+    boolean existsByStudentCodeAndCourses_Code(String studentCode,String courseCode);
 
     @Query("""
             SELECT s

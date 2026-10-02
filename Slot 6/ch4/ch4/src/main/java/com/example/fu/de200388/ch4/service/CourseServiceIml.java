@@ -48,6 +48,18 @@ public class CourseServiceIml implements CourseService {
                 ? courseRepository.findDistinctByStudents_Department_CodeOrderByCodeAsc(deptCode)
                 : courseRepository.findByStudents_Department_CodeOrderByCodeAsc(deptCode);
     }
+    public List<Course> findCourseByCreditBetween(int minCredits,int maxCredits){
+        return courseRepository.findByCreditsBetween(minCredits,maxCredits);
+    }
+    public List<Course> findCourseByCreditGreaterThan(int credits){
+        return courseRepository.findByCreditsGreaterThan(credits);
+    }
+    public List<Course> findCourseByKeyword(String keyword){
+        return courseRepository.findByNameContainingIgnoreCase(keyword);
+    }
+    public List<Course> findCoursesWithoutStudents(){
+        return courseRepository.findByStudentsIsEmpty();
+    }
 
 
 }

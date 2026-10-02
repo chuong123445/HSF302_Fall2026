@@ -8,11 +8,20 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course,Long> {
-    public Optional<Course>  findByCode(String code);
-    public List<Course> findBySemesterOrderByCodeAsc(String semester);
-    public long countBySemester(String semester);
-    public List<Course> findByStudents_StudentCodeOrderByCodeAsc(String studentCode);
-    public List<Course> findDistinctByStudents_Department_CodeOrderByCodeAsc(String departmentCode);
-    public List<Course> findByStudents_Department_CodeOrderByCodeAsc(String departmentCode);
+     Optional<Course> findByCode(String code);
+
+     List<Course> findBySemesterOrderByCodeAsc(String semester);
+
+    long countBySemester(String semester);
+
+     List<Course> findByStudents_StudentCodeOrderByCodeAsc(String studentCode);
+
+    List<Course> findDistinctByStudents_Department_CodeOrderByCodeAsc(String departmentCode);
+
+     List<Course> findByStudents_Department_CodeOrderByCodeAsc(String departmentCode);
+     List<Course> findByStudentsIsEmpty();
+     List<Course> findByCreditsBetween(int minCredit,int maxCredit);
+     List<Course> findByCreditsGreaterThan(int credits);
+     List<Course> findByNameContainingIgnoreCase(String keyword);
 
 }

@@ -62,4 +62,5 @@ public interface StudentService {
     int deactivateLowGpa(double threshold);
 
     long deleteInactiveStudents();
+
 }
