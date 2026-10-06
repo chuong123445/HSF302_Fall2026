@@ -1,6 +1,5 @@
 package com.example.chapter6.controller;
 
-package com.hsf302.chapter6.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
