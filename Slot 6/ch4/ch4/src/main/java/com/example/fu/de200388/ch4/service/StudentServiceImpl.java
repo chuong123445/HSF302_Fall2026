@@ -236,7 +236,7 @@ public class StudentServiceImpl implements StudentService {
 
         Student student = studentRepository.findByStudentCode(studentCode.trim())
                 .orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentCode));
-        student.setGpa(newGpa);
+        student.setGpa  (newGpa);
         return student;
     }
 

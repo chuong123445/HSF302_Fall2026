@@ -85,7 +85,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                         "Department not found: " + normalizedTargetCode
                 ));
 
-        int transferredStudents = studentRepository.transferStudents(source, target);
+        int transferredStudents = studentRepository.transferStudents(sourceCode, target);
         departmentRepository.deleteById(source.getId());
         return transferredStudents;
     }
@@ -94,8 +94,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Department> findAll() {
         return departmentRepository.findAll();
     }
-    public List<Department> findDepartmentHasMore3Student(){
-               return  departmentRepository.findAllDepartmentHasMoreThan3Student();
+    public List<Department> findDepartmentHasMoreNStudent(int min){
+               return  departmentRepository.findAllDepartmentHasMoreThan3Student(min);
     }
 
 }

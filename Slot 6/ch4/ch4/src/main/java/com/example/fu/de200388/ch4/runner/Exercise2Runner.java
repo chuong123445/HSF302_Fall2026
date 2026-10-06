@@ -1,16 +1,21 @@
 package com.example.fu.de200388.ch4.runner;
 
 import com.example.fu.de200388.ch4.pojo.Course;
+import com.example.fu.de200388.ch4.pojo.Student;
 import com.example.fu.de200388.ch4.service.CourseService;
 import com.example.fu.de200388.ch4.service.EnrollmentService;
 import com.example.fu.de200388.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.LazyInitializationException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -33,35 +38,37 @@ public class Exercise2Runner implements CommandLineRunner {
     }
 
     private void partB() {
-//        todo6();
-//        todo7();
+        // Bo sung theo guide: bat cac TODO tren du lieu goc, truoc Part E.
+        todo6();
+        todo7();
     }
     private void partC() {
-//        todo8();
-//        todo9();
-//        todo10();
-//        todo11();
+        todo8();
+        todo9();
+        todo10();
+        todo11();
         test();
     }
     private void partD() {
-//        todo12();
-//        todo13();
-//        todo14();
-//        todo15();
-//        todo16();
-//        todo17();
-//        todo18();
-//        todo19();
+        todo12();
+        todo13();
+        todo14();
+        todo15();
+        todo16();
+        todo17();
+        todo18();
+        todo19();
     }
     private void bonus() {
-//        todo25();
+        todo25();
     }
     private void partE() {
-//        todo20();
-//        todo21();
-//        todo22();
-//        todo23();
-//        todo24();
+        // Bo sung theo guide: thu tu nay can thiet vi cac TODO thay doi du lieu.
+        todo20();
+        todo21();
+        todo22();
+        todo23();
+        todo24();
     }
 
     // ===== helpers =====
@@ -127,12 +134,157 @@ public class Exercise2Runner implements CommandLineRunner {
         System.out.println("    SE002 enrolled AIL303? " + enrollmentService.isEnrolled("SE002", "AIL303"));
     }
 
+    // Bo sung theo guide - Part D, TODO 12-19.
+    private void todo12() {
+        title("TODO 12: JPQL JOIN s.courses");
+        printList("HSF302 & GPA >= 3.5", enrollmentService.findGoodStudentsInCourse("HSF302", 3.5));
+    }
+
+    private void todo13() {
+        title("TODO 13: course statistics (LEFT JOIN + GROUP BY + DTO)");
+        printCourseStats();
+    }
+
+    // Theo guide - dung lai o TODO 24 de so sanh thong ke sau khi thay doi du lieu.
+    private void printCourseStats() {
+        courseService.getStatistics().forEach(d -> System.out.printf(
+                "   %-6s | %-40s | %d/%d (free %d) | avg GPA %s%n",
+                d.code(), d.name(), d.enrolled(), d.capacity(), d.remaining(),
+                d.avgGpa() == null ? "null" : String.format("%.3f", d.avgGpa())));
+    }
+
+    private void todo14() {
+        title("TODO 14: total credits per student (GROUP BY + HAVING)");
+        enrollmentService.getCreditSummary(7).forEach(d -> System.out.printf(
+                "   %s | %-15s | %d course(s) | %d credits%n",
+                d.studentCode(), d.fullName(), d.courseCount(), d.totalCredits()));
+    }
+
+    private void todo15() {
+        title("TODO 15: SIZE() on collections");
+        printList("(a) Full courses", courseService.findFullCourses());
+        printList("(b) Students with more than 2 courses", enrollmentService.findStudentsWithMoreThan(2));
+    }
+
+    private void todo16() {
+        title("TODO 16: LazyInitializationException, JOIN FETCH, @EntityGraph");
+        // Theo guide - (a) co y truy cap LAZY sau khi transaction da dong.
+        try {
+            Student s = studentService.findByStudentCode("SE001").orElseThrow();
+            System.out.println("(a) courses = " + s.getCourses().size());
+        } catch (LazyInitializationException e) {
+            System.out.println("(a) Caught: " + e.getClass().getSimpleName());
+            System.out.println("    " + e.getMessage());
+        }
+
+        Student s = enrollmentService.getStudentWithCourses("SE001");
+        System.out.println("(b) " + s.getStudentCode() + " - " + s.getFullName());
+        s.getCourses().stream()
+                .sorted(Comparator.comparing(Course::getCode))
+                .forEach(c -> System.out.println("   " + c));
+
+        Course c = courseService.getWithStudents("SWP391");
+        System.out.println("(c) " + c.getCode() + " - " + c.getName());
+        c.getStudents().stream()
+                .sorted(Comparator.comparing(Student::getFullName))
+                .forEach(st -> System.out.println("   " + st));
+    }
+
+    private void todo17() {
+        title("TODO 17: native SQL on join table - top 3 enrolled courses");
+        courseService.findTopEnrolled(3).forEach(r -> System.out.printf(
+                "   %s | %-35s | %d student(s)%n", r.getCode(), r.getName(), r.getEnrolled()));
+    }
+
+    private void todo18() {
+        title("TODO 18: interface projection - enrollments of department AI");
+        enrollmentService.getEnrollmentsOfDepartment("AI").forEach(v -> System.out.printf(
+                "   %s | %-14s | %s | %-35s | %d%n",
+                v.getStudentCode(), v.getFullName(), v.getCourseCode(), v.getCourseName(), v.getCredits()));
+    }
+
+    private void todo19() {
+        title("TODO 19: paginate students of HSF302 (size 2, order by fullName)");
+        int pageIndex = 0;
+        Page<Student> page;
+        do {
+            page = enrollmentService.findStudentsInCoursePage("HSF302", pageIndex, 2);
+            printList("Page " + pageIndex, page.getContent());
+            pageIndex++;
+        } while (page.hasNext());
+        System.out.println("totalElements = " + page.getTotalElements()
+                + ", totalPages = " + page.getTotalPages());
+    }
+
+    // Bo sung theo guide - Bonus TODO 25 chay truoc cac thao tac ghi Part E.
+    private void todo25() {
+        title("TODO 25 (Bonus): Specification search");
+        printList("search(null, SU26, null, null)", enrollmentService.search(null, "SU26", null, null));
+        printList("search(HSF302, null, SE, 3.5)", enrollmentService.search("HSF302", null, "SE", 3.5));
+        printList("search(null, FA26, AI, null)", enrollmentService.search(null, "FA26", "AI", null));
+    }
+
+    // Bo sung theo guide - Part E, TODO 20-24: [FAIL] la cac tinh huong bi tu choi du kien.
+    private void todo20() {
+        title("TODO 20: enroll with business rules");
+        attempt("enroll IA003 -> MKT101", () -> enrollmentService.enroll("IA003", "MKT101"));
+        attempt("enroll SE001 -> PRJ301", () -> enrollmentService.enroll("SE001", "PRJ301"));
+        attempt("enroll SE004 -> AIL303", () -> enrollmentService.enroll("SE004", "AIL303"));
+        attempt("enroll SE003 -> HSF302", () -> enrollmentService.enroll("SE003", "HSF302"));
+        attempt("enroll XX999 -> HSF302", () -> enrollmentService.enroll("XX999", "HSF302"));
+        printList("Courses of IA003", enrollmentService.getCoursesOfStudent("IA003"));
+        System.out.println("Students of MKT101: " + enrollmentService.countStudentsInCourse("MKT101"));
+    }
+
+    private void todo21() {
+        title("TODO 21: unenroll");
+        attempt("unenroll AI002 <- AIL303", () -> enrollmentService.unenroll("AI002", "AIL303"));
+        attempt("unenroll IA003 <- PRJ301", () -> enrollmentService.unenroll("IA003", "PRJ301"));
+        attempt("enroll   SE004 -> AIL303", () -> enrollmentService.enroll("SE004", "AIL303"));
+        printList("Students of AIL303", enrollmentService.getStudentsOfCourse("AIL303"));
+        printList("Courses of AI002", enrollmentService.getCoursesOfStudent("AI002"));
+        System.out.println("AI002 still exists? " + studentService.findByStudentCode("AI002").isPresent());
+        System.out.println("Total courses: " + courseService.count());
+    }
+
+    private void todo22() {
+        title("TODO 22: switch course in one transaction");
+        attempt("switch SE001 SWP391 -> MKT101",
+                () -> enrollmentService.switchCourse("SE001", "SWP391", "MKT101"));
+        printList("Courses of SE001", enrollmentService.getCoursesOfStudent("SE001"));
+
+        attempt("switch SE001 PRJ301 -> AIL303",
+                () -> enrollmentService.switchCourse("SE001", "PRJ301", "AIL303"));
+        printList("Courses of SE001 (after rollback)", enrollmentService.getCoursesOfStudent("SE001"));
+    }
+
+    private void todo23() {
+        title("TODO 23: delete course");
+        try {
+            courseService.deleteCourseDirectly("IAA202");
+            System.out.println("(a) Deleted ?!");
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("(a) Caught: " + e.getClass().getSimpleName());
+            System.out.println("    " + e.getMostSpecificCause().getMessage());
+        }
+
+        System.out.println("(b) Unlinked students: " + courseService.deleteCourse("IAA202"));
+        printList("Remaining courses", courseService.findAllOrderByCode());
+        printList("Courses of IA002", enrollmentService.getCoursesOfStudent("IA002"));
+    }
+
+    private void todo24() {
+        title("TODO 24: bulk delete enrollments of inactive students");
+        System.out.println("Deleted rows: " + enrollmentService.removeEnrollmentsOfInactiveStudents());
+        printCourseStats();
+        printList("Students without courses", enrollmentService.findStudentsWithoutCourses());
+    }
+
     private void test(){
         title(" Khóa học có credits trong khoảng min–max (derived method/custom query)");
         printList("a:Khóa học có credits trong khoảng min–max (derived method/custom query)",courseService.findCourseByCreditBetween(1,3));
         printList("b:Đếm số khóa có credits ",courseService.findCourseByCreditGreaterThan(3));
         printList("c:Tìm khóa có tên chứa từ khóa (không phân biệt hoa thường), ",courseService.findCourseByKeyword("ing"));
-
     }
 
 }

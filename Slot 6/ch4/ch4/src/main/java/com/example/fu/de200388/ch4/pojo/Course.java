@@ -42,7 +42,8 @@ public class Course {
     public boolean equals(Object o){
         if(this==o) return true;
         if(!(o instanceof Course other)) return false;
-        return this.code !=null && this.code.equals(other.code);
+        // Bo sung theo guide - TODO 2: getter doc duoc business key cua Hibernate proxy.
+        return this.code !=null && this.code.equals(other.getCode());
     }
     public int hashCode(){
         return Objects.hashCode(this.code);

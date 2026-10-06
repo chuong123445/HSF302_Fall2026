@@ -23,5 +23,5 @@ public interface DepartmentService {
     int transferStudentsAndDelete(String sourceCode, String targetCode);
 
     List<Department> findAll();
-    List<Department> findDepartmentHasMore3Student();
+    List<Department> findDepartmentHasMoreNStudent(int min);
 }

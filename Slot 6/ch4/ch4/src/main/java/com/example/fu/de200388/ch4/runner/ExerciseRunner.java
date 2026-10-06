@@ -52,7 +52,7 @@ public class ExerciseRunner implements CommandLineRunner {
         test();
     }
     private void test(){
-        departmentService.findDepartmentHasMore3Student().forEach(System.out::println);
+        departmentService.findDepartmentHasMoreNStudent(3).forEach(System.out::println);
     }
     private void runTodo6() {
         System.out.println("\n===== TODO 6: Built-in repository methods =====");
