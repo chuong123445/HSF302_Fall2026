@@ -18,18 +18,18 @@
           class="card card-body shadow-sm">
 
         <div class="mb-3">
-            <label for="ten" class="form-label">Tên sản phẩm</label>
+            <label th:for="ten" class="form-label">Tên sản phẩm</label>
             <input type="text" class="form-control" th:field="*{ten}"
                    placeholder="Nhập tên..." required/>
         </div>
 
         <div class="mb-3">
-            <label for="gia" class="form-label">Giá (VNĐ)</label>
+            <label th:for="gia" class="form-label">Giá (VNĐ)</label>
             <input type="number" class="form-control" th:field="*{gia}" min="0" step="1000" required/>
         </div>
 
         <div class="mb-3">
-            <label for="soLuong" class="form-label">Số lượng</label>
+            <label th:for="soLuong" class="form-label">Số lượng</label>
             <input type="number" class="form-control" th:field="*{soLuong}" min="0" required/>
         </div>
 
