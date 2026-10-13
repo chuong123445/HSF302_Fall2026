@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- BÀI TẬP: Thay toàn bộ mỗi thuộc tính data-fill-XX="________________" bằng thuộc tính và biểu thức Thymeleaf phù hợp theo comment ngay trước đoạn code. Giữ nguyên nội dung mẫu và các thuộc tính HTML khác. -->
+<!-- data-fill-01: Khai báo namespace Thymeleaf cho trang. data-fill-02: Dùng fragment layout trong fragments/layout, truyền title và section của trang này. -->
+<html lang="vi" data-fill-01="________________"
+      data-fill-02="________________">
+<head>
+    <title>Chi tiết sinh viên</title>
+</head>
+<body>
+<section>
+
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                    <!-- data-fill-03: Tạo liên kết quay về /students. -->
+                    <a data-fill-03="________________">Sinh viên</a></li>
+                    <!-- data-fill-04: Hiển thị giá trị thuộc tính name của student. -->
+                    <li class="breadcrumb-item active" data-fill-04="________________">Tên</li>
+                </ol>
+            </nav>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-circle me-2"></i>
+                        <!-- data-fill-05: Hiển thị giá trị thuộc tính name của student. -->
+                        <span data-fill-05="________________">Tên sinh viên</span>
+                    </h5>
+                    <!-- data-fill-06: Hiển thị tiền tố ID: kèm id của student. -->
+                    <span class="badge bg-light text-dark" data-fill-06="________________">ID</span>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Họ tên</dt>
+                        <!-- data-fill-07: Hiển thị giá trị thuộc tính name của student. -->
+                        <dd class="col-sm-8" data-fill-07="________________">Tên</dd>
+
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8">
+                            <!-- data-fill-08: Tạo liên kết gửi email đến địa chỉ email của student. data-fill-09: Hiển thị giá trị thuộc tính email của student. -->
+                            <a data-fill-08="________________" data-fill-09="________________">email</a>
+                        </dd>
+
+                        <dt class="col-sm-4">Tuổi</dt>
+                        <!-- data-fill-10: Hiển thị tuổi của student kèm hậu tố tuổi. -->
+                        <dd class="col-sm-8" data-fill-10="________________">20 tuổi</dd>
+
+                        <dt class="col-sm-4">Chuyên ngành</dt>
+                        <dd class="col-sm-8">
+                            <!-- data-fill-11: Hiển thị giá trị thuộc tính major của student. -->
+                            <span class="badge bg-primary" data-fill-11="________________">CNTT</span>
+                        </dd>
+
+                        <dt class="col-sm-4">GPA</dt>
+                        <dd class="col-sm-8">
+                            <!-- data-fill-12: Thêm lớp theo GPA của student: từ 3.5 là text-success fw-bold; từ 2.5 đến dưới 3.5 là text-warning fw-bold; còn lại là text-danger fw-bold. data-fill-13: Hiển thị GPA của student, định dạng tối thiểu 1 chữ số phần nguyên và đúng 1 chữ số thập phân. -->
+                            <span data-fill-12="________________"
+                                  data-fill-13="________________">3.5</span>
+                            <small class="text-muted ms-1">/ 4.0</small>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex gap-2">
+                    <!-- data-fill-14: Tạo liên kết /students/{id}/edit với id của student. -->
+                    <a data-fill-14="________________" class="btn btn-warning">
+                        <i class="bi bi-pencil me-1"></i>Sửa
+                    </a>
+                    <!-- Form xác nhận và xóa sinh viên -->
+                    <!-- data-fill-15: Gửi form xóa đến /students/{id}/delete với id của student. data-fill-16: Gán tên của student vào thuộc tính data-name để JavaScript dùng trong thông báo xác nhận xóa. -->
+                    <form data-fill-15="________________"
+                          method="post"
+                          data-fill-16="________________"
+                          onsubmit="return confirm('Xóa sinh viên ' + this.dataset.name + '?')">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Xóa
+                        </button>
+                    </form>
+                    <!-- data-fill-17: Tạo liên kết quay về /students. -->
+                    <a data-fill-17="________________" class="btn btn-outline-secondary ms-auto">
+                        <i class="bi bi-arrow-left me-1"></i>Quay lại
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

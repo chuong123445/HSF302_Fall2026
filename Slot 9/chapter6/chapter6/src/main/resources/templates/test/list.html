@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- BÀI TẬP: Thay toàn bộ mỗi thuộc tính data-fill-XX="________________" bằng thuộc tính và biểu thức Thymeleaf phù hợp theo comment ngay trước đoạn code. Giữ nguyên nội dung mẫu và các thuộc tính HTML khác. -->
+<!-- data-fill-01: Khai báo namespace Thymeleaf cho trang. data-fill-02: Dùng fragment layout trong fragments/layout, truyền title và section của trang này. -->
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Danh sách sinh viên</title>
+</head>
+<body>
+<section>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-people-fill me-2"></i>Danh sách sinh viên</h2>
+        <!-- data-fill-03: Tạo liên kết đến /students/create để thêm sinh viên. -->
+        <a th:href="@{/students/create}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Thêm sinh viên
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <!-- Trường hợp rỗng -->
+            <!-- data-fill-04: Chỉ hiện khối này khi danh sách students rỗng. -->
+            <div th:if="${#lists.isEmpty(students)}" class="text-center p-5 text-muted">
+                <i class="bi bi-inbox display-4"></i>
+                <p class="mt-2">Chưa có sinh viên nào.</p>
+                <!-- data-fill-05: Tạo liên kết đến /students/create để thêm sinh viên. -->
+                <a th:href="@{/students/create}" class="btn btn-outline-primary">Thêm ngay</a>
+            </div>
+
+            <!-- Bảng dữ liệu -->
+            <!-- data-fill-06: Chỉ hiện khối này khi danh sách students không rỗng. -->
+            <table th:unless="${#lists.isEmpty(students)}" class="table table-hover mb-0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Tuổi</th>
+                    <th>Chuyên ngành</th>
+                    <th>GPA</th>
+                    <th class="text-center">Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- data-fill-07: Lặp danh sách students, dùng biến student cho từng sinh viên và stat cho trạng thái vòng lặp. -->
+                <tr th:each="student, stat : ${students}">
+                    <!-- data-fill-08: Hiển thị số thứ tự vòng lặp từ 1 bằng stat. -->
+                    <td th:text="${stat.count}">1</td>
+                    <!-- data-fill-09: Hiển thị giá trị thuộc tính id của student. -->
+                    <td th:text="${student.id}">1</td>
+                    <td>
+                        <!-- data-fill-10: Tạo liên kết /students/{id} với id của student để xem chi tiết. data-fill-11: Hiển thị giá trị thuộc tính name của student. -->
+                        <a th:href="@{/students/{id} (id = ${student.id}) }"
+                           th:text="${student.name}"
+                           class="text-decoration-none fw-semibold">Tên</a>
+                    </td>
+                    <!-- data-fill-12: Hiển thị giá trị thuộc tính email của student. -->
+                    <td th:text="${student.email}">email</td>
+                    <!-- data-fill-13: Hiển thị giá trị thuộc tính age của student. -->
+                    <td th:text="${student.age}" >20</td>
+                    <td>
+                    <!-- data-fill-14: Hiển thị giá trị thuộc tính major của student. -->
+                    <span class="badge bg-secondary" th:text="${student.major}">CNTT</span></td>
+                    <td>
+                        <!-- data-fill-15: Thêm lớp theo GPA của student: từ 3.5 là gpa-high;
+                         từ 2.5 đến dưới 3.5 là gpa-mid; còn lại là gpa-low. data-fill-16: Hiển thị GPA của student, định dạng tối thiểu 1 chữ số phần nguyên và đúng 1 chữ số thập phân. -->
+                        <span th:classappend="${student.gpa>3.5} ? 'gpa-high' : ( ${student.gpa>=2.5} ? 'gpa-mid' : 'gpa-low')}"
+                              th:text="${student.gpa}">3.5</span>
+                    </td>
+                    <td class="text-center">
+                        <!-- data-fill-17: Tạo liên kết /students/{id} với id của student để xem chi tiết. -->
+                        <a th:href="@{students/{id} (id=@{student.id})}"
+                           class="btn btn-sm btn-outline-info me-1" title="Chi tiết">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <!-- data-fill-18: Tạo liên kết /students/{id}/edit với id của student. -->
+                        <a th:href="@{students/{id}/edit(id=@{student.id})}"
+                           class="btn btn-sm btn-outline-warning me-1" title="Sửa">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <!-- data-fill-19: Gửi form xóa đến /students/{id}/delete với id của student. data-fill-20: Gán tên của student vào thuộc tính data-name để JavaScript dùng trong thông báo xác nhận xóa. -->
+                        <form th:href="@{students/{id}/delete (id=${student.id})}" "
+                              method="post" class="d-inline"
+                              data-fill-20="________________"
+                              onsubmit="return confirm('Xóa sinh viên ' + this.dataset.name + '?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- data-fill-21: Chỉ hiện khối này khi danh sách students không rỗng. -->
+    <div data-fill-21="________________" class="text-muted mt-2">
+        <small>Tổng: 
+        <!-- data-fill-22: Hiển thị tổng số phần tử của danh sách students. -->
+        <strong data-fill-22="________________">0</strong> sinh viên</small>
+    </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!-- BÀI TẬP: Thay toàn bộ mỗi thuộc tính data-fill-XX="________________" bằng thuộc tính và biểu thức Thymeleaf phù hợp theo comment ngay trước đoạn code. Giữ nguyên nội dung mẫu và các thuộc tính HTML khác. -->
+<!-- data-fill-01: Khai báo namespace Thymeleaf cho trang. data-fill-02: Dùng fragment layout trong fragments/layout, truyền title và section của trang này. -->
+<html lang="vi" data-fill-01="________________"
+      data-fill-02="________________">
+<head>
+    <!-- data-fill-03: Hiển thị tiêu đề từ biến pageTitle. -->
+    <title data-fill-03="________________">Form sinh viên</title>
+</head>
+<body>
+<section>
+
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                    <!-- data-fill-04: Tạo liên kết quay về /students. -->
+                    <a data-fill-04="________________">Sinh viên</a></li>
+                    <!-- data-fill-05: Hiển thị tiêu đề từ biến pageTitle. -->
+                    <li class="breadcrumb-item active" data-fill-05="________________">Form</li>
+                </ol>
+            </nav>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <!-- data-fill-06: Thêm lớp icon bi-person-check khi isEdit đúng, ngược lại thêm bi-person-plus. -->
+                        <i class="bi me-2" data-fill-06="________________"></i>
+                        <!-- data-fill-07: Hiển thị tiêu đề từ biến pageTitle. -->
+                        <span data-fill-07="________________">Form</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- data-fill-08: Chọn nơi gửi form theo isEdit: sửa tại /students/{id}/edit với id của student, thêm tại /students/create. data-fill-09: Gắn đối tượng student làm đối tượng liên kết dữ liệu cho toàn bộ form. -->
+                    <form data-fill-08="________________"
+                          data-fill-09="________________"
+                          method="post"
+                          novalidate>
+
+                        <!-- Thông báo lỗi tổng hợp trong phạm vi đối tượng của form -->
+                        <!-- data-fill-10: Chỉ hiện thông báo khi form có bất kỳ lỗi validation nào; kiểm tra trong phạm vi đối tượng của form. -->
+                        <div data-fill-10="________________" class="alert alert-warning py-2">
+                            Vui lòng kiểm tra lại các trường được đánh dấu đỏ.
+                        </div>
+
+                        <!-- Họ tên -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold">
+                                Họ tên <span class="text-danger">*</span>
+                            </label>
+                            <!-- data-fill-11: Liên kết trường nhập với thuộc tính name của đối tượng form. data-fill-12: Thêm lớp CSS is-invalid khi trường liên kết có lỗi validation. -->
+                            <input type="text" class="form-control"
+                                   data-fill-11="________________"
+                                   data-fill-12="________________"
+                                   placeholder="Nhập họ và tên"/>
+                            <!-- data-fill-13: Hiển thị lỗi validation của thuộc tính name trong đối tượng form. -->
+                            <div class="invalid-feedback" data-fill-13="________________">Lỗi tên</div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">
+                                Email <span class="text-danger">*</span>
+                            </label>
+                            <!-- data-fill-14: Liên kết trường nhập với thuộc tính email của đối tượng form. data-fill-15: Thêm lớp CSS is-invalid khi trường liên kết có lỗi validation. -->
+                            <input type="email" class="form-control"
+                                   data-fill-14="________________"
+                                   data-fill-15="________________"
+                                   placeholder="example@fpt.edu.vn"/>
+                            <!-- data-fill-16: Hiển thị lỗi validation của thuộc tính email trong đối tượng form. -->
+                            <div class="invalid-feedback" data-fill-16="________________">Lỗi email</div>
+                        </div>
+
+                        <!-- Tuổi -->
+                        <div class="mb-3">
+                            <label for="age" class="form-label fw-semibold">
+                                Tuổi <span class="text-danger">*</span>
+                            </label>
+                            <!-- data-fill-17: Liên kết trường nhập với thuộc tính age của đối tượng form. data-fill-18: Thêm lớp CSS is-invalid khi trường liên kết có lỗi validation. -->
+                            <input type="number" class="form-control"
+                                   data-fill-17="________________"
+                                   data-fill-18="________________"
+                                   min="18" max="30"/>
+                            <!-- data-fill-19: Hiển thị lỗi validation của thuộc tính age trong đối tượng form. -->
+                            <div class="invalid-feedback" data-fill-19="________________">Lỗi tuổi</div>
+                        </div>
+
+                        <!-- Chuyên ngành -->
+                        <div class="mb-3">
+                            <label for="major" class="form-label fw-semibold">
+                                Chuyên ngành <span class="text-danger">*</span>
+                            </label>
+                            <!-- data-fill-20: Liên kết trường nhập với thuộc tính major của đối tượng form. data-fill-21: Thêm lớp CSS is-invalid khi trường liên kết có lỗi validation. -->
+                            <select class="form-select" data-fill-20="________________" data-fill-21="________________">
+                                <option value="">-- Chọn chuyên ngành --</option>
+                                <!-- data-fill-22: Lặp danh sách majors, dùng biến m cho từng chuyên ngành. data-fill-23: Gán giá trị của option bằng chuyên ngành m đang được lặp. data-fill-24: Hiển thị tên chuyên ngành m đang được lặp trong option. -->
+                                <option data-fill-22="________________" data-fill-23="________________" data-fill-24="________________"></option>
+                            </select>
+                            <!-- data-fill-25: Hiển thị lỗi validation của thuộc tính major trong đối tượng form. -->
+                            <div class="invalid-feedback" data-fill-25="________________">Lỗi chuyên ngành</div>
+                        </div>
+
+                        <!-- GPA -->
+                        <div class="mb-4">
+                            <label for="gpa" class="form-label fw-semibold">
+                                GPA <span class="text-danger">*</span>
+                            </label>
+                            <!-- data-fill-26: Liên kết trường nhập với thuộc tính gpa của đối tượng form. data-fill-27: Thêm lớp CSS is-invalid khi trường liên kết có lỗi validation. -->
+                            <input type="number" class="form-control"
+                                   data-fill-26="________________"
+                                   data-fill-27="________________"
+                                   step="0.1" min="0" max="4"
+                                   placeholder="0.0 - 4.0"/>
+                            <div class="form-text">Thang điểm 4.0</div>
+                            <!-- data-fill-28: Hiển thị lỗi validation của thuộc tính gpa trong đối tượng form. -->
+                            <div class="invalid-feedback" data-fill-28="________________">Lỗi GPA</div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i>
+                                <!-- data-fill-29: Hiển thị Cập nhật khi isEdit đúng, ngược lại hiển thị Thêm mới. -->
+                                <span data-fill-29="________________">Lưu</span>
+                            </button>
+                            <!-- data-fill-30: Tạo liên kết quay về /students. -->
+                            <a data-fill-30="________________" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg me-1"></i>Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
