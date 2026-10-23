@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
@@ -17,4 +18,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     //        → existsByStudentCodeIgnoreCase(String studentCode)
     //  19.3. Kiểm tra mã SV đã tồn tại ở sinh viên KHÁC (dùng khi CẬP NHẬT – bỏ qua chính nó)
     //        → existsByStudentCodeIgnoreCaseAndIdNot(String studentCode, Long id)
+    Optional<Student> findByStudentCodeContainingIgnoreCaseOrFullNameContainingIgnoreCaseOrderByIdAsc(String keywordg);
+    boolean existsByStudentCodeIgnoreCase(String studentCode);
+    boolean existsByStudentCodeIgnoreCaseAndIdNot(String studentCode,Long id);
+
 }
